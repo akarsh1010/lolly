@@ -64,16 +64,16 @@ local JEMALLOC_VERSION = "5.3.0"
 local CPR_VERSION = "1.10.5"
 
 tbox_configs = {hash=true, ["force-utf8"]=true, charset=true}
-add_requires("tbox " .. TBOX_VERSION, {system=false, configs=tbox_configs})
+add_requires("tbox " .. TBOX_VERSION, {system=true, configs=tbox_configs})
 if has_config("enable_tests") then
-    add_requires("doctest " .. DOCTEST_VERSION, {system=false})
-    add_requires("nanobench", {system=false})
+    add_requires("doctest " .. DOCTEST_VERSION, {system=true})
+    add_requires("nanobench", {system=true})
 end
 
 if is_config("malloc", "mimalloc") then 
     add_requires("mimalloc " .. MIMALLOC_VERSION)
 elseif is_config("malloc", "jemalloc") then 
-    add_requires("jemalloc " .. JEMALLOC_VERSION, {system=false, configs={envs={LD_PRELOAD="`jemalloc-config --libdir`/libjemalloc.so.`jemalloc-config --revision`" }}})
+    add_requires("jemalloc " .. JEMALLOC_VERSION, {system=true, configs={envs={LD_PRELOAD="`jemalloc-config --libdir`/libjemalloc.so.`jemalloc-config --revision`" }}})
 end
 
 if not is_plat("wasm") then
