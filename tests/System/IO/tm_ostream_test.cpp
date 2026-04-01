@@ -188,7 +188,7 @@ TEST_CASE ("cout/cerr") {
   cerr << "棒棒糖" << LF;
 }
 
-TEST_MEMORY_LEAK_ALL
+TEST_MEMORY_LEAK_ALL 
 
 TEST_CASE ("tm_ostream opened on file") {
   url    file_path= url_temp ("lolly_test_output.txt");
