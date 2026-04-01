@@ -189,3 +189,55 @@ TEST_CASE ("cout/cerr") {
 }
 
 TEST_MEMORY_LEAK_ALL
+
+TEST_CASE ("tm_ostream opened on file") {
+  url    file_path= url_temp ("lolly_test_output.txt");
+  string content  = "Hello from tm_ostream file test!";
+
+  {
+    tm_ostream out (file_path);
+    CHECK (out->is_writable () == true);
+    out << content;
+  }
+
+  string loaded= "";
+  load_string (file_path, loaded, false);
+  CHECK (loaded == content);
+
+  remove (file_path);
+}
+
+TEST_CASE ("tm_ostream file with utf-8 filename") {
+  url    file_path= url_temp ("lolly_utf8_棒棒糖.txt");
+  string content  = "utf-8 content";
+
+  {
+    tm_ostream out (file_path);
+    CHECK (out->is_writable () == true);
+    out << content;
+  }
+
+  string loaded= "";
+  load_string (file_path, loaded, false);
+  CHECK (loaded == content);
+
+  remove (file_path);
+}
+
+TEST_CASE ("tm_ostream interoperability with load_string and save_string") {
+  url    file_path= url_temp ("lolly_interop_test.txt");
+  string content  = "interoperability test content";
+
+  save_string (file_path, content, false);
+
+  {
+    tm_ostream out (file_path);
+    CHECK (out->is_writable () == true);
+  }
+
+  string loaded= "";
+  load_string (file_path, loaded, false);
+  CHECK (loaded == content);
+
+  remove (file_path);
+}
